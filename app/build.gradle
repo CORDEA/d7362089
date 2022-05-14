@@ -6,6 +6,9 @@ plugins {
     id 'kotlinx-serialization'
 }
 
+def props = new Properties();
+file("unsplash.properties").withInputStream { props.load(it) }
+
 android {
     compileSdk 32
 
@@ -22,6 +25,13 @@ android {
         }
     }
 
+    flavorDimensions "app"
+    productFlavors {
+        dev {
+            dimension "app"
+            buildConfigField "String", "ACCESS_KEY", "\"${props.getProperty("access.key")}\""
+        }
+    }
     buildTypes {
         release {
             minifyEnabled false
