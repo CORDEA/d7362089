@@ -10,7 +10,7 @@ interface UnsplashApi {
     suspend fun findRandomPhotos(
         @Query("count") count: Int,
         @Query("query") query: String,
-        @Query("orientation") orientation: String
+        @Query("orientation") orientation: String?
     ): List<PhotoResponse>
 
     @GET("/search/photos")
@@ -18,6 +18,6 @@ interface UnsplashApi {
         @Query("query") query: String,
         @Query("page") page: Int,
         @Query("per_page") perPage: Int,
-        @Query("orientation") orientation: String
+        @Query("orientation") orientation: String?
     ): SearchResponse
 }
