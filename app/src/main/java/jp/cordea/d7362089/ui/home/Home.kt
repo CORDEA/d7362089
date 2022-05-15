@@ -22,6 +22,7 @@ fun Home() {
     val scrollBehavior = remember { TopAppBarDefaults.pinnedScrollBehavior() }
     Scaffold(
         modifier = Modifier
+            .systemBarsPadding()
             .nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             SmallTopAppBar(
