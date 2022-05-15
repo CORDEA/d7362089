@@ -17,8 +17,10 @@ import androidx.compose.ui.graphics.painter.ColorPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import dagger.hilt.android.AndroidEntryPoint
 import jp.cordea.d7362089.ui.theme.D7362089Theme
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -80,9 +82,11 @@ private fun Carousel() {
 
 @Composable
 private fun CarouselItem() {
-    Column(modifier = Modifier
-        .width(120.dp)
-        .padding(end = 8.dp)) {
+    Column(
+        modifier = Modifier
+            .width(120.dp)
+            .padding(end = 8.dp)
+    ) {
         Image(
             // TODO
             painter = ColorPainter(color = Color(0xff000000)),
