@@ -18,7 +18,7 @@ import jp.cordea.d7362089.ui.theme.D7362089Theme
 
 @Composable
 @ExperimentalMaterial3Api
-fun Home() {
+fun Home(viewModel: HomeViewModel) {
     val scrollBehavior = remember { TopAppBarDefaults.pinnedScrollBehavior() }
     Scaffold(
         modifier = Modifier
@@ -100,6 +100,6 @@ private fun CarouselItem() {
 @ExperimentalMaterial3Api
 fun DefaultPreview() {
     D7362089Theme {
-        Home()
+//        Home(HomeViewModel())
     }
 }

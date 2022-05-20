@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.hilt.navigation.compose.hiltViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import jp.cordea.d7362089.ui.home.Home
 import jp.cordea.d7362089.ui.theme.D7362089Theme
@@ -15,7 +16,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             D7362089Theme {
-                Home()
+                Home(hiltViewModel())
             }
         }
     }
