@@ -10,6 +10,7 @@ import jp.cordea.d7362089.ui.home.Home
 import jp.cordea.d7362089.ui.theme.D7362089Theme
 
 @AndroidEntryPoint
+@ExperimentalCoilApi
 @ExperimentalMaterial3Api
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
