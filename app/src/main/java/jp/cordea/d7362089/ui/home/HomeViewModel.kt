@@ -17,8 +17,19 @@ class HomeViewModel @Inject constructor(
     private val _pickupThumbnail = MutableLiveData("")
     val pickupThumbnail: LiveData<String> get() = _pickupThumbnail
 
-    private val _items = MutableLiveData<List<HomeItemViewModel>>()
-    val items: LiveData<List<HomeItemViewModel>> get() = _items
+    private val _items = MutableLiveData<Map<HomeSection, List<HomeItemViewModel>>>()
+    val items: LiveData<Map<HomeSection, List<HomeItemViewModel>>> get() = _items
+}
+
+enum class HomeSection {
+    CAT,
+    DOG,
+    FOX,
+    RABBIT,
+    HAMSTER;
+
+    override fun toString() =
+        super.toString().replaceFirstChar { it.uppercase() }
 }
 
 class HomeItemViewModel(
