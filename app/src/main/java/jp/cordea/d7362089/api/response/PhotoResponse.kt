@@ -6,6 +6,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class PhotoResponse(
     val id: String,
+    val user: User,
     @SerialName("created_at")
     val createdAt: String,
     @SerialName("updated_at")
@@ -13,9 +14,12 @@ data class PhotoResponse(
     val width: Int,
     val height: Int,
     val color: String,
+    val views: Int,
     val downloads: Int,
     val likes: Int,
-    val description: String,
+    val description: String?,
+    @SerialName("alt_description")
+    val altDescription: String?,
     val exif: Exif,
     val location: Location,
     val urls: Urls,
@@ -23,13 +27,13 @@ data class PhotoResponse(
 ) {
     @Serializable
     data class Exif(
-        val make: String,
-        val model: String
+        val make: String?,
+        val model: String?
     )
 
     @Serializable
     data class Location(
-        val name: String
+        val name: String?
     )
 
     @Serializable

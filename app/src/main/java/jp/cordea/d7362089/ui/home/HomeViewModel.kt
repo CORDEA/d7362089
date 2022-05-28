@@ -59,7 +59,7 @@ class HomeViewModel @Inject constructor(
             entry.value.map {
                 HomeItemViewModel(
                     it.id,
-                    it.description,
+                    it.description.orEmpty(),
                     it.urls.regular
                 )
             }
