@@ -3,6 +3,7 @@ package jp.cordea.d7362089.api
 import jp.cordea.d7362089.api.response.PhotoResponse
 import jp.cordea.d7362089.api.response.SearchResponse
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface UnsplashApi {
@@ -20,4 +21,9 @@ interface UnsplashApi {
         @Query("per_page") perPage: Int,
         @Query("orientation") orientation: String?
     ): SearchResponse
+
+    @GET("/photos/{id}")
+    suspend fun findPhoto(
+        @Path("id") id: String
+    ): PhotoResponse
 }
