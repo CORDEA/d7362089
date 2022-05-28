@@ -1,11 +1,13 @@
 package jp.cordea.d7362089.ui.home
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.remember
@@ -15,14 +17,25 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
+import jp.cordea.d7362089.ui.Destination
 import jp.cordea.d7362089.ui.theme.D7362089Theme
 
 @Composable
 @ExperimentalCoilApi
 @ExperimentalMaterial3Api
-fun Home(viewModel: HomeViewModel) {
+fun Home(viewModel: HomeViewModel, navController: NavController) {
+    val event by viewModel.event.collectAsState(null)
+    when (event) {
+        is HomeEvent.ToDetails -> {
+            navController.navigate(Destination.DETAILS)
+        }
+        null -> {
+        }
+    }
+
     val scrollBehavior = remember { TopAppBarDefaults.pinnedScrollBehavior() }
     val items by viewModel.items.observeAsState(emptyMap())
     Scaffold(
@@ -41,7 +54,19 @@ fun Home(viewModel: HomeViewModel) {
             item { Pickup(viewModel) }
             items.map {
                 item { SectionLabel(it.key.toString()) }
-                item { Carousel(viewModels = it.value) }
+                item {
+                    LazyRow(
+                        contentPadding = PaddingValues(start = 16.dp, end = 8.dp)
+                    ) {
+                        it.value.map {
+                            item {
+                                CarouselItem(it) {
+                                    viewModel.onItemClicked(it.id)
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
     }
@@ -64,29 +89,23 @@ private fun Pickup(viewModel: HomeViewModel) {
         painter = rememberImagePainter(data = thumbnail),
         contentDescription = null,
         contentScale = ContentScale.Crop,
-        modifier = Modifier.aspectRatio(19f / 10f)
+        modifier = Modifier
+            .aspectRatio(19f / 10f)
+            .clickable(onClick = viewModel::onPickupClicked)
     )
 }
 
 @Composable
 @ExperimentalCoilApi
-private fun Carousel(viewModels: List<HomeItemViewModel>) {
-    LazyRow(
-        contentPadding = PaddingValues(start = 16.dp, end = 8.dp)
-    ) {
-        viewModels.map {
-            item { CarouselItem(it) }
-        }
-    }
-}
-
-@Composable
-@ExperimentalCoilApi
-private fun CarouselItem(viewModel: HomeItemViewModel) {
+private fun CarouselItem(
+    viewModel: HomeItemViewModel,
+    onClick: () -> Unit
+) {
     Column(
         modifier = Modifier
             .width(120.dp)
             .padding(end = 8.dp)
+            .clickable(onClick = onClick)
     ) {
         Image(
             painter = rememberImagePainter(data = viewModel.thumbnail),

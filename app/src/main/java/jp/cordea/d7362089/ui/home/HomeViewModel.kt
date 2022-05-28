@@ -8,6 +8,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import jp.cordea.d7362089.api.response.PhotoResponse
 import jp.cordea.d7362089.usecase.GetRandomLandscapePhotoUseCase
 import jp.cordea.d7362089.usecase.GetRandomPhotosUseCase
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import javax.inject.Inject
@@ -18,6 +20,8 @@ class HomeViewModel @Inject constructor(
     private val getRandomPhotosUseCase: GetRandomPhotosUseCase,
     private val getRandomLandscapePhotoUseCase: GetRandomLandscapePhotoUseCase,
 ) : ViewModel() {
+    private val _event = MutableSharedFlow<HomeEvent>()
+    val event = _event.asSharedFlow()
 
     private val _pickupThumbnail = MutableLiveData("")
     val pickupThumbnail: LiveData<String> get() = _pickupThumbnail
@@ -65,6 +69,18 @@ class HomeViewModel @Inject constructor(
             }
         }
     }
+
+    fun onPickupClicked() {
+        viewModelScope.launch {
+            _event.emit(HomeEvent.ToDetails(pickupPhoto))
+        }
+    }
+
+    fun onItemClicked(id: String) {
+        viewModelScope.launch {
+            _event.emit(HomeEvent.ToDetails(photos.first { it.id == id }))
+        }
+    }
 }
 
 enum class HomeSection {
@@ -83,3 +99,7 @@ data class HomeItemViewModel(
     val title: String,
     val thumbnail: String
 )
+
+sealed class HomeEvent {
+    class ToDetails(val response: PhotoResponse) : HomeEvent()
+}

@@ -24,7 +24,7 @@ fun NavGraph(
 ) {
     NavHost(navController = navController, startDestination = Destination.HOME) {
         composable(route = Destination.HOME) {
-            Home(hiltViewModel())
+            Home(hiltViewModel(), navController)
         }
         composable(route = Destination.DETAILS) {
             Details(hiltViewModel())
