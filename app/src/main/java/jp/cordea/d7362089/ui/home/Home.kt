@@ -28,12 +28,11 @@ import jp.cordea.d7362089.ui.theme.D7362089Theme
 @ExperimentalMaterial3Api
 fun Home(viewModel: HomeViewModel, navController: NavController) {
     val event by viewModel.event.collectAsState(null)
-    when (event) {
+    when (@Suppress("UnnecessaryVariable") val e = event) {
         is HomeEvent.ToDetails -> {
-            navController.navigate(Destination.DETAILS)
+            navController.navigate(Destination.Details(e.id).build())
         }
-        null -> {
-        }
+        null -> {}
     }
 
     val scrollBehavior = remember { TopAppBarDefaults.pinnedScrollBehavior() }

@@ -72,13 +72,13 @@ class HomeViewModel @Inject constructor(
 
     fun onPickupClicked() {
         viewModelScope.launch {
-            _event.emit(HomeEvent.ToDetails(pickupPhoto))
+            _event.emit(HomeEvent.ToDetails(pickupPhoto.id))
         }
     }
 
     fun onItemClicked(id: String) {
         viewModelScope.launch {
-            _event.emit(HomeEvent.ToDetails(photos.first { it.id == id }))
+            _event.emit(HomeEvent.ToDetails(id))
         }
     }
 }
@@ -101,5 +101,5 @@ data class HomeItemViewModel(
 )
 
 sealed class HomeEvent {
-    class ToDetails(val response: PhotoResponse) : HomeEvent()
+    class ToDetails(val id: String) : HomeEvent()
 }
