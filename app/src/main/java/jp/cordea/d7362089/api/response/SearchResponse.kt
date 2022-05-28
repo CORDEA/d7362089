@@ -8,5 +8,6 @@ data class SearchResponse(
     val total: Long,
     @SerialName("total_pages")
     val totalPages: Int,
+    // FIXME
     val results: List<PhotoResponse>
 )

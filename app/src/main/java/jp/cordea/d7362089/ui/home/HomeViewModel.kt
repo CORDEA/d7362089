@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import jp.cordea.d7362089.api.response.PhotoResponse
 import jp.cordea.d7362089.usecase.GetRandomLandscapePhotoUseCase
-import jp.cordea.d7362089.usecase.SearchPhotosUseCase
+import jp.cordea.d7362089.usecase.GetRandomPhotosUseCase
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import javax.inject.Inject
@@ -15,7 +15,7 @@ import kotlin.random.Random
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val searchPhotosUseCase: SearchPhotosUseCase,
+    private val getRandomPhotosUseCase: GetRandomPhotosUseCase,
     private val getRandomLandscapePhotoUseCase: GetRandomLandscapePhotoUseCase,
 ) : ViewModel() {
 
@@ -45,7 +45,7 @@ class HomeViewModel @Inject constructor(
         val items = sections
             .associateWith {
                 try {
-                    searchPhotosUseCase.execute(it.toString(), 0, 5).results
+                    getRandomPhotosUseCase.execute(it.toString(), 5)
                 } catch (e: HttpException) {
                     e.printStackTrace()
                     emptyList()
