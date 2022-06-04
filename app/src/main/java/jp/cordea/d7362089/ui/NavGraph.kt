@@ -14,7 +14,7 @@ import jp.cordea.d7362089.ui.details.Details
 import jp.cordea.d7362089.ui.home.Home
 
 private val TAG_HOME = Destination.Home.build()
-private val TAG_DETAILS = Destination.Details("{id}").build()
+private val TAG_DETAILS = Destination.Details("{${Destination.Details.KEY}}").build()
 
 sealed class Destination {
     object Home : Destination() {
@@ -22,6 +22,10 @@ sealed class Destination {
     }
 
     class Details(private val id: String) : Destination() {
+        companion object {
+            const val KEY = "id"
+        }
+
         fun build() = "details/$id"
     }
 }
@@ -38,11 +42,11 @@ fun NavGraph(
         }
         composable(
             route = TAG_DETAILS,
-            arguments = listOf(navArgument("id") {
+            arguments = listOf(navArgument(Destination.Details.KEY) {
                 type = NavType.StringType
             })
-        ) { entry ->
-            Details(hiltViewModel(), entry.arguments?.getString("id").orEmpty())
+        ) {
+            Details(hiltViewModel())
         }
     }
 }
