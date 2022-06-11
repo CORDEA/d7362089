@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalCoilApi::class)
+
 package jp.cordea.d7362089.ui.home
 
 import androidx.compose.foundation.Image
@@ -21,8 +23,7 @@ import jp.cordea.d7362089.ui.Destination
 import jp.cordea.d7362089.ui.theme.D7362089Theme
 
 @Composable
-@ExperimentalCoilApi
-@ExperimentalMaterial3Api
+@OptIn(ExperimentalMaterial3Api::class)
 fun Home(viewModel: HomeViewModel, navController: NavController) {
     val event by viewModel.event.collectAsState(null)
     LaunchedEffect(event) {
@@ -79,7 +80,6 @@ private fun SectionLabel(title: String) {
 }
 
 @Composable
-@ExperimentalCoilApi
 private fun Pickup(viewModel: HomeViewModel) {
     val thumbnail by viewModel.pickupThumbnail.observeAsState("")
     Image(
@@ -93,7 +93,6 @@ private fun Pickup(viewModel: HomeViewModel) {
 }
 
 @Composable
-@ExperimentalCoilApi
 private fun CarouselItem(
     viewModel: HomeItemViewModel,
     onClick: () -> Unit
@@ -123,7 +122,6 @@ private fun CarouselItem(
 
 @Preview(showBackground = true)
 @Composable
-@ExperimentalMaterial3Api
 fun DefaultPreview() {
     D7362089Theme {
 //        Home(HomeViewModel())

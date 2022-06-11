@@ -1,6 +1,5 @@
 package jp.cordea.d7362089.ui
 
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
@@ -9,7 +8,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import coil.annotation.ExperimentalCoilApi
 import jp.cordea.d7362089.ui.details.Details
 import jp.cordea.d7362089.ui.home.Home
 
@@ -31,8 +29,6 @@ sealed class Destination {
 }
 
 @Composable
-@ExperimentalCoilApi
-@ExperimentalMaterial3Api
 fun NavGraph(
     navController: NavHostController = rememberNavController()
 ) {
