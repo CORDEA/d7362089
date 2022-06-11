@@ -6,11 +6,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
@@ -28,13 +25,14 @@ import jp.cordea.d7362089.ui.theme.D7362089Theme
 @ExperimentalMaterial3Api
 fun Home(viewModel: HomeViewModel, navController: NavController) {
     val event by viewModel.event.collectAsState(null)
-    when (@Suppress("UnnecessaryVariable") val e = event) {
-        is HomeEvent.ToDetails -> {
-            navController.navigate(Destination.Details(e.id).build())
+    LaunchedEffect(event) {
+        when (@Suppress("UnnecessaryVariable") val e = event) {
+            is HomeEvent.ToDetails -> {
+                navController.navigate(Destination.Details(e.id).build())
+            }
+            null -> {}
         }
-        null -> {}
     }
-
     val scrollBehavior = remember { TopAppBarDefaults.pinnedScrollBehavior() }
     val items by viewModel.items.observeAsState(emptyMap())
     Scaffold(
