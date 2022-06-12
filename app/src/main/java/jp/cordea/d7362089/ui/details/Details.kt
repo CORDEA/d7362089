@@ -24,6 +24,8 @@ import androidx.compose.ui.unit.dp
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import jp.cordea.d7362089.ui.theme.D7362089Theme
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalCoilApi::class)
@@ -45,6 +47,7 @@ fun Details(viewModel: DetailsViewModel) {
     val userName by viewModel.userName.observeAsState()
     val width by viewModel.width.observeAsState()
     val height by viewModel.height.observeAsState()
+    val createdAt by viewModel.createdAt.observeAsState()
     val downloads by viewModel.downloads.observeAsState()
     val location by viewModel.location.observeAsState()
     Scaffold(
@@ -80,6 +83,19 @@ fun Details(viewModel: DetailsViewModel) {
             item { Divider(modifier = Modifier.padding(vertical = 8.dp)) }
             item {
                 ListItem(title = "Size", content = "$width x $height")
+            }
+            createdAt?.let {
+                item {
+                    ListItem(
+                        title = "Created date",
+                        content = it.format(
+                            DateTimeFormatter.ofLocalizedDateTime(
+                                FormatStyle.LONG,
+                                FormatStyle.SHORT
+                            )
+                        )
+                    )
+                }
             }
             item {
                 ListItem(title = "Downloads", content = "$downloads")

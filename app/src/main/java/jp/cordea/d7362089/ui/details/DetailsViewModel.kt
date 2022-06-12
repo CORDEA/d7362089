@@ -7,6 +7,7 @@ import jp.cordea.d7362089.ui.home.HomeItemViewModel
 import jp.cordea.d7362089.ui.home.HomeSection
 import jp.cordea.d7362089.usecase.GetPhotoUseCase
 import kotlinx.coroutines.launch
+import java.time.LocalDateTime
 import javax.inject.Inject
 
 @HiltViewModel
@@ -25,6 +26,9 @@ class DetailsViewModel @Inject constructor(
     private val _userName = MutableLiveData("")
     val userName: LiveData<String> get() = _userName
 
+    private val _createdAt = MutableLiveData<LocalDateTime?>(null)
+    val createdAt: LiveData<LocalDateTime?> get() = _createdAt
+
     private val _width = MutableLiveData(0)
     val width: LiveData<Int> get() = _height
 
@@ -42,6 +46,7 @@ class DetailsViewModel @Inject constructor(
             val photo = getPhotoUseCase.execute(id, forceRefresh = false)
             _thumbnail.value = photo.urls.regular
             _description.value = photo.description ?: photo.altDescription
+            _createdAt.value = photo.createdAt
             _userName.value = photo.user.name
             _width.value = photo.width
             _height.value = photo.height
