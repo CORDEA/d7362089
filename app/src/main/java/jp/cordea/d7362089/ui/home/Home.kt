@@ -8,7 +8,10 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -34,7 +37,9 @@ fun Home(viewModel: HomeViewModel, navController: NavController) {
             null -> {}
         }
     }
-    val scrollBehavior = remember { TopAppBarDefaults.pinnedScrollBehavior() }
+    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(
+        rememberTopAppBarScrollState()
+    )
     val items by viewModel.items.observeAsState(emptyMap())
     Scaffold(
         modifier = Modifier
