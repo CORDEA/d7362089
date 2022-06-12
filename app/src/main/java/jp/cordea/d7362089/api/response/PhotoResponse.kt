@@ -1,16 +1,25 @@
 package jp.cordea.d7362089.api.response
 
+import kotlinx.serialization.KSerializer
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.builtins.serializer
+import kotlinx.serialization.descriptors.SerialDescriptor
+import kotlinx.serialization.encoding.Decoder
+import kotlinx.serialization.encoding.Encoder
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 @Serializable
 data class PhotoResponse(
     val id: String,
     val user: User,
     @SerialName("created_at")
-    val createdAt: String,
+    @Serializable(with = DateTimeSerializer::class)
+    val createdAt: LocalDateTime,
     @SerialName("updated_at")
-    val updatedAt: String,
+    @Serializable(with = DateTimeSerializer::class)
+    val updatedAt: LocalDateTime,
     val width: Int,
     val height: Int,
     val color: String,
@@ -55,4 +64,22 @@ data class PhotoResponse(
         val name: String,
         val links: Links
     )
+}
+
+class DateTimeSerializer : KSerializer<LocalDateTime> {
+    private val serializer = String.serializer()
+
+    override val descriptor: SerialDescriptor
+        get() = serializer.descriptor
+
+    override fun deserialize(decoder: Decoder): LocalDateTime {
+        return LocalDateTime.parse(
+            decoder.decodeString(),
+            DateTimeFormatter.ISO_OFFSET_DATE_TIME
+        )
+    }
+
+    override fun serialize(encoder: Encoder, value: LocalDateTime) {
+        throw NotImplementedError()
+    }
 }
