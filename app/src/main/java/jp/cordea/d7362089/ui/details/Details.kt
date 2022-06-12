@@ -1,10 +1,7 @@
 package jp.cordea.d7362089.ui.details
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -21,9 +18,12 @@ import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
+import jp.cordea.d7362089.ui.theme.D7362089Theme
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalCoilApi::class)
@@ -43,6 +43,10 @@ fun Details(viewModel: DetailsViewModel) {
     val thumbnail by viewModel.thumbnail.observeAsState()
     val description by viewModel.description.observeAsState()
     val userName by viewModel.userName.observeAsState()
+    val width by viewModel.width.observeAsState()
+    val height by viewModel.height.observeAsState()
+    val downloads by viewModel.downloads.observeAsState()
+    val location by viewModel.location.observeAsState()
     Scaffold(
         modifier = Modifier.nestedScroll(scrollConnection),
         topBar = {
@@ -73,6 +77,50 @@ fun Details(viewModel: DetailsViewModel) {
             item {
                 Text(description.orEmpty())
             }
+            item { Divider(modifier = Modifier.padding(vertical = 8.dp)) }
+            item {
+                ListItem(title = "Size", content = "$width x $height")
+            }
+            item {
+                ListItem(title = "Downloads", content = "$downloads")
+            }
+            item {
+                ListItem(title = "Location", content = location.orEmpty())
+            }
+        }
+    }
+}
+
+@Composable
+private fun ListItem(title: String, content: String) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .requiredHeight(64.dp),
+        verticalArrangement = Arrangement.Center
+    ) {
+        Text(
+            title,
+            style = MaterialTheme.typography.titleSmall,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis
+        )
+        Spacer(modifier = Modifier.height(4.dp))
+        Text(
+            content,
+            style = MaterialTheme.typography.bodyMedium,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun Preview() {
+    D7362089Theme {
+        Column(modifier = Modifier.padding(16.dp)) {
+            ListItem("title", "content")
         }
     }
 }

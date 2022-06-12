@@ -25,12 +25,28 @@ class DetailsViewModel @Inject constructor(
     private val _userName = MutableLiveData("")
     val userName: LiveData<String> get() = _userName
 
+    private val _width = MutableLiveData(0)
+    val width: LiveData<Int> get() = _height
+
+    private val _height = MutableLiveData(0)
+    val height: LiveData<Int> get() = _height
+
+    private val _downloads = MutableLiveData(0)
+    val downloads: LiveData<Int> get() = _downloads
+
+    private val _location = MutableLiveData("")
+    val location: LiveData<String> get() = _location
+
     init {
         viewModelScope.launch {
             val photo = getPhotoUseCase.execute(id, forceRefresh = false)
             _thumbnail.value = photo.urls.regular
             _description.value = photo.description ?: photo.altDescription
             _userName.value = photo.user.name
+            _width.value = photo.width
+            _height.value = photo.height
+            _downloads.value = photo.downloads
+            _location.value = photo.location.name
         }
     }
 }
